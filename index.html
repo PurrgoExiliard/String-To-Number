@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="js.png" type="image/x-icon">
+    <title>String To Number</title>
+</head>
+
+<body>
+    <h1 class="title">Get the int value of your text</h1>
+    <div class="convert">
+        <div id="add">
+            <div class="roow">
+                <input type="text" name="text" id="text">
+                <input type="button" id="send" value="Calculate" onclick="Calculate()">
+            </div>
+            <div id="load">
+            </div>
+            <div class="step">
+                <span class="text" id="1"></span><br>
+            </div>
+            <div class="step" id="log">
+            </div>
+            <div class="step">
+                <span class="text" id="5"></span>
+            </div>
+        </div>
+    </div>
+    <script src="fcs.js"></script>
+    <script>
+        let intValue = 0
+        let progress = 0
+        let height = 1.5
+        let change = false
+        let stopI = false
+        let reset = false
+        setInterval(() => {
+            if (document.getElementById("text").value != "") {
+                document.getElementById("send").setAttribute("onclick", "Calculate()");
+            } else {
+                document.getElementById("send").setAttribute("onclick", "");
+            }
+        }, 100)
+
+        function r() {
+            setInterval(() => {
+                if (progress == 1 && change == false) {
+                    typeWord()
+                    change = true
+                }
+                if (progress == 2 && change == false) {
+                    getHex()
+                    change = true
+                }
+                if (progress == 3 && change == false) {
+                    getLastStep()
+                    change = true
+                    stopI = true
+                    reset = true
+                    clearInterval(r)
+                }
+            }, 500)
+        }
+
+        function simpleStrToInt(str) {
+            String.prototype.hexEncode = function() {
+                var hex, i;
+
+                var result = [];
+                for (i = 0; i < this.length; i++) {
+                    hex = this.charCodeAt(i).toString(16);
+                    result[i] = ("000" + hex).slice(-4);
+                }
+
+                return result
+            }
+            midstep = str.hexEncode()
+            midstep.forEach((letter) => {
+                intValue += parseInt(letter, 16)
+            })
+            return intValue
+
+        }
+    </script>
+</body>
+
+</html>
